@@ -1,18 +1,26 @@
 // Set up canvas
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-
-// Get the width and height from the canvas element
-var width = canvas.width;
-var height = canvas.height;
-
-// the width and height in blocks
-var blockSize = 10;
-var widthInBlocks = width / blockSize;
-var heightInBlocks = height / blockSize;
+var canvas, ctx, width, height, blockSize, widthInBlocks, heightInBlocks;
 
 // Set score to 0
 var score = 0;
+
+function resetSize(){
+    canvas = document.querySelector(".canvas");
+    canvas.width = $('body').width()
+    canvas.height = $('body').height()
+    ctx = canvas.getContext("2d");
+
+// Get the width and height from the canvas element
+    width = canvas.width;
+    height = canvas.height;
+
+// the width and height in blocks
+    blockSize = height / 40;
+    widthInBlocks = Math.ceil(width / blockSize);
+    heightInBlocks = Math.ceil(height / blockSize);
+}
+resetSize();
+$(window).resize(resetSize)
 
 // Draw the border
 var drawBorder = function () {
@@ -95,13 +103,13 @@ var Snake = function () {
 Snake.prototype.draw = function () {
     for (var i = 0; i < this.segments.length; i++) {
         if (i === 0) {
-            this.segments[i].drawSquare("Blue");
+            this.segments[i].drawSquare("blue");
         }
         else if (i % 2 == 0) {
-            this.segments[i].drawSquare("Blue");
+            this.segments[i].drawSquare("aqua");
         }
         else {
-            this.segments[i].drawSquare("LightBlue");
+            this.segments[i].drawSquare("lightblue");
         }
     }
 };
@@ -149,6 +157,7 @@ Snake.prototype.checkCollision = function (head) {
         }
     }
     return wallCollision || selfCollision;
+
 };
 
 // Set the snake's next direction based on the keyboard
@@ -183,9 +192,6 @@ Apple.prototype.move = function () {
         this.position = new Block(randomCol, randomRow);
         
     }
-    else if (animationTime !== 5) {
-        animationTime--;
-    }
 };
 
 // Create the snake and apple objects
@@ -194,7 +200,14 @@ var apple = new Apple();
 
 
 // Pass an animation function to setInterval
-var intervalId = setInterval(function () {
+var intervalId = 0;
+function gameStart() {
+    document.getElementById("start-btn").style.display = "none";
+    let animationTime = 110;
+    intervalId = setInterval(function () {
+        if (animationTime !== 10) {
+            animationTime = animationTime - 0.1;
+        }
     ctx.clearRect(0, 0, width, height);
     drawScore();
     snake.move();
