@@ -214,7 +214,8 @@ function gameStart() {
     snake.draw();
     apple.draw();
     drawBorder();
-}, 100);
+    }, animationTime);
+}
 
 
 // Convert keycodes to directions
