@@ -4,17 +4,17 @@ var canvas, ctx, width, height, blockSize, widthInBlocks, heightInBlocks;
 // Set score to 0
 var score = 0;
 
-function resetSize(){
+function resetSize() {
     canvas = document.querySelector(".canvas");
     canvas.width = $('body').width()
     canvas.height = $('body').height()
     ctx = canvas.getContext("2d");
 
-// Get the width and height from the canvas element
+    // Get the width and height from the canvas element
     width = canvas.width;
     height = canvas.height;
 
-// the width and height in blocks
+    // the width and height in blocks
     blockSize = height / 40;
     widthInBlocks = Math.ceil(width / blockSize);
     heightInBlocks = Math.ceil(height / blockSize);
@@ -38,6 +38,14 @@ var drawScore = function () {
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillText("Score: " + score, blockSize, blockSize);
+};
+
+var drawLevel = function () {
+    ctx.font = "20px Courier";
+    ctx.fillStyle = "Black";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "bottom";
+    ctx.fillText("Level: " + level, blockSize, blockSize);
 };
 
 // Stop the interval and show Game Over 
@@ -190,7 +198,7 @@ Apple.prototype.move = function () {
     var randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
     if (randomCol !== snake.col && randomRow !== snake.row) {
         this.position = new Block(randomCol, randomRow);
-        
+
     }
 };
 
@@ -201,19 +209,39 @@ var apple = new Apple();
 
 // Pass an animation function to setInterval
 var intervalId = 0;
+let animationTime = 100;
+let level = "Easy";
 function gameStart() {
     document.getElementById("start-btn").style.display = "none";
-    let animationTime = 110;
     intervalId = setInterval(function () {
-        if (animationTime !== 10) {
-            animationTime = animationTime - 0.1;
+        if(score === 10){
+            level = "Normal";
         }
-    ctx.clearRect(0, 0, width, height);
-    drawScore();
-    snake.move();
-    snake.draw();
-    apple.draw();
-    drawBorder();
+        ctx.clearRect(0, 0, width, height);
+        drawScore();
+        drawLevel();
+        snake.move();
+        snake.draw();
+        apple.draw();
+        if (level === "Normal") {
+            enemy.draw();
+            enemy.move();
+        }
+        if (level === "Hard") {
+            enemy.draw();
+            enemy.move();
+            secondEnemy.draw();
+            secondEnemy.move();
+        }
+        if (level === "Ludicrous") {
+            enemy.draw();
+            enemy.move();
+            secondEnemy.draw();
+            secondEnemy.move();
+            bossEnemy.draw()
+            bossEnemy.move()
+        }
+        drawBorder();
     }, animationTime);
 }
 
@@ -233,3 +261,58 @@ $("body").keydown(function (event) {
         snake.setDirection(newDirection);
     }
 });
+
+
+
+var Enemy = function () {
+    this.position = new Block(9, 9);
+};
+
+// Draw a circle at the apple's location
+Enemy.prototype.draw = function () {
+    this.position.drawCircle("red");
+};
+
+var enemyCol = 9;
+var enemyRow = 9;
+var enemyDirection = "left";
+
+// Move enemy to new location
+Enemy.prototype.move = function () {
+    if (enemyDirection === "left") {
+        enemyCol -= 1;
+        enemyRow -= 1;
+        enemy.position = new Block(enemyCol, enemyRow);
+        if (enemyCol && enemyRow < 3) {
+            enemyCol = 9;
+            enemyRow = 9;
+            enemy.position = new Block(enemyCol, enemyRow);
+            enemyDirection = "right";
+        }
+    }
+    else if (enemyDirection === "right") {
+        enemyCol -= 1;
+        enemyRow += 1;
+        enemy.position = new Block(enemyCol, enemyRow);
+        if (enemyCol < 3 && enemyRow > 20) {
+            enemyCol = 9;
+            enemyRow = 9;
+            enemy.position = new Block(enemyCol, enemyRow);
+            enemyDirection = "downleft";
+        }
+    }
+    else if (enemyDirection === "downleft") {
+        enemyCol += 1;
+        enemyRow += 1;
+        enemy.position = new Block(enemyCol, enemyRow);
+        if (enemyCol && enemyRow > 40) {
+            enemyCol = 9;
+            enemyRow = 9;
+            enemy.position = new Block(enemyCol, enemyRow);
+            enemyDirection = "left";
+        }
+    }
+
+};
+
+var enemy = new Enemy();
