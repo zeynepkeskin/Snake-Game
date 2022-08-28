@@ -17,15 +17,31 @@ html, body{
     Transform: translate(-50%, -50%);
     font-size: 7vw;
     cursor: pointer;
-    border: 1vw solid red;
-    border-radius: 4vw;
+    border: 1vw solid rgb(116, 9, 9);
     padding: 6vw;
-    background-color: rgba(255, 0, 0, 0.199);
-    color: rgb(182, 0, 0);
+    background-color: rgba(240, 93, 93, 0.514);
+    color: rgb(153, 9, 9);
     font-family: 'Press Start 2P';
     transition: 0.2s;
 }
 
 #start-btn:hover {
     background-color: rgba(255, 0, 0, 0.384);
+}
+canvas{
+    background-image: url(img/bg.png);
+}
+#gameOver{
+    top: 50%;
+    left: 5vw;
+    font-family: 'Press Start 2P';
+    color: rgb(44, 3, 3);
+    position: absolute;
+    font-size: 10vw;
+    visibility: hidden;
+}
+audio{
+    display: none;
+    width: 0;
+    height: 0;
 }
