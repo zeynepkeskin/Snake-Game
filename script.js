@@ -64,6 +64,11 @@ let gameOver = function () {
 };
 function gameOverText(){
     document.querySelector("#gameOver").style.visibility = "visible";
+    document.querySelector("#playAgain").style.visibility = "visible";
+}
+function restart(){
+    document.getElementById("button").play();
+    setTimeout(function(){location.reload()}, 100);
 }
 
 // The Block constructor
@@ -202,9 +207,19 @@ Apple.prototype.draw = function () {
 Apple.prototype.move = function () {
     let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
     let randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
-    if (randomCol !== snake.col && randomRow !== snake.row) {
-        this.position = new Block(randomCol, randomRow);
-        document.getElementById("bite").play();
+    for (let i = 0; i < snake.segments.length; i++) {
+        if (randomCol == snake.col && randomRow == snake.row) {
+            randomCol += 5;
+            randomRow += 5;
+            this.position = new Block(randomCol, randomRow);
+            document.getElementById("bite").play();
+            return
+        }
+        else{
+            this.position = new Block(randomCol, randomRow);
+            document.getElementById("bite").play();
+            return;
+        }
     }
 };
 
@@ -227,7 +242,7 @@ function gameStart() {
         apple.draw();
         drawBorder();
 
-    }, 90);
+    }, 100);
 }
 
 
@@ -246,5 +261,6 @@ $("body").keydown(function (event) {
         snake.setDirection(newDirection);
     }
 });
+
 
 
