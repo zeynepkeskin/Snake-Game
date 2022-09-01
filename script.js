@@ -262,5 +262,8 @@ $("body").keydown(function (event) {
     }
 });
 
-
+$(".canvas").swiperight(function() {
+    let newDirection = directions[39];
+    snake.setDirection(newDirection);
+});
 
