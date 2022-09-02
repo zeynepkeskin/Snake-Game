@@ -21,9 +21,21 @@ function resetSize() {
     height = canvas.height;
 
     // the width and height in blocks
-    blockSize = height / 30;
+    if(canvas.width > canvas.height){
+        blockSize = height / 30;
+        widthInBlocks = Math.ceil(width / blockSize);
+        heightInBlocks = Math.ceil(height / blockSize);
+    }
+   else if(canvas.height > canvas.width){
+    blockSize = height / 45;
     widthInBlocks = Math.ceil(width / blockSize);
     heightInBlocks = Math.ceil(height / blockSize);
+   }
+   else{
+    blockSize = height / 40;
+    widthInBlocks = Math.ceil(width / blockSize);
+    heightInBlocks = Math.ceil(height / blockSize);
+   }
 }
 resetSize();
 $(window).resize(resetSize)
@@ -45,14 +57,7 @@ let drawScore = function () {
     ctx.textBaseline = "top";
     ctx.fillText("Score: " + score, blockSize, blockSize);
 };
-let drawLevel = function () {
-    ctx.textBaseline = "hanging";
-    if (level === "Easy") ctx.fillStyle = "Green";
-    if (level === "Normal") ctx.fillStyle = "Blue";
-    if (level === "Hard") ctx.fillStyle = "Red";
-    if (level === "Ludicrous") ctx.fillStyle = "Purple";
-    ctx.fillText("Level: " + level, blockSize + blockSize, blockSize + blockSize);
-}
+
 
 
 // Stop the interval and show Game Over 
@@ -264,7 +269,7 @@ $("body").keydown(function (event) {
 
 
 
-
+//gestures
 
 
 $(function () {
