@@ -6,10 +6,13 @@
     line-height: 0;
 
 }
-html, body{
+
+html,
+body {
     width: 100%;
     height: 100%;
 }
+
 #start-btn {
     position: absolute;
     Top: 50%;
@@ -28,10 +31,12 @@ html, body{
     background-color: rgba(255, 0, 0, 0.384);
     color: rgb(255, 212, 212);
 }
-canvas{
+
+canvas {
     background-image: url(img/bg.png);
 }
-#gameOver{
+
+#gameOver {
     top: 40%;
     left: 5vw;
     font-family: 'Press Start 2P';
@@ -41,12 +46,14 @@ canvas{
     visibility: hidden;
 
 }
-audio{
+
+audio {
     display: none;
     width: 0;
     height: 0;
 }
-#playAgain{
+
+#playAgain {
     top: 60%;
     left: 5vw;
     font-family: 'Press Start 2P';
@@ -57,6 +64,7 @@ audio{
     cursor: pointer;
     visibility: hidden;
 }
-#playAgain:hover{
+
+#playAgain:hover {
     color: rgb(11, 148, 11);
 }

@@ -62,13 +62,13 @@ let gameOver = function () {
     document.getElementById("player").pause();
     document.getElementById("lose").play();
 };
-function gameOverText(){
+function gameOverText() {
     document.querySelector("#gameOver").style.visibility = "visible";
     document.querySelector("#playAgain").style.visibility = "visible";
 }
-function restart(){
+function restart() {
     document.getElementById("button").play();
-    setTimeout(function(){location.reload()}, 100);
+    setTimeout(function () { location.reload() }, 100);
 }
 
 // The Block constructor
@@ -80,16 +80,16 @@ let Block = function (col, row) {
 Block.prototype.drawImage = function (i) {
     let x = this.col * blockSize;
     let y = this.row * blockSize;
-    if(i === true){
+    if (i === true) {
         ctx.drawImage(headImg, x, y, blockSize, blockSize);
     }
-    else if (i === "apple"){
+    else if (i === "apple") {
         ctx.drawImage(appleImg, x, y, blockSize, blockSize);
     }
-    else{
+    else {
         ctx.drawImage(bodyImg, x, y, blockSize, blockSize);
     }
-   
+
 
 };
 
@@ -215,7 +215,7 @@ Apple.prototype.move = function () {
             document.getElementById("bite").play();
             return
         }
-        else{
+        else {
             this.position = new Block(randomCol, randomRow);
             document.getElementById("bite").play();
             return;
@@ -262,8 +262,45 @@ $("body").keydown(function (event) {
     }
 });
 
-$(".canvas").swiperight(function() {
-    let newDirection = directions[39];
-    snake.setDirection(newDirection);
-});
+
+
+
+
+
+$(function () {
+    var $pad = $(".canvas");
+    $pad.touch({
+        // Turn on document tracking so stuff works even if the cursor leaves the trackpad.
+        trackDocument: true,
+
+        // Normalize coordinates when/if the cursor leaves the trackpad.
+        trackDocumentNormalize: true,
+
+        // Prevent default events for drag/swipe (so the page doesn't scroll when you do those gestures).
+        preventDefault: {
+          drag: true,
+          swipe: true,
+        },
+      })
+
+      // Swipe events.
+      .on("swipeUp", function (e, o) {
+        let newDirection = directions[38];
+            snake.setDirection(newDirection);
+      })
+      .on("swipeDown", function (e, o) {
+        let newDirection = directions[40];
+        snake.setDirection(newDirection);
+      })
+      .on("swipeLeft", function (e, o) {
+        let newDirection = directions[37];
+        snake.setDirection(newDirection);
+      })
+      .on("swipeRight", function (e, o) {
+        let newDirection = directions[39];
+        snake.setDirection(newDirection);
+      });
+  });
+
+
 
